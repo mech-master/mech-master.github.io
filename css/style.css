@@ -44,13 +44,15 @@ html, body, #root {
     flex-direction: row;
     flex-wrap: wrap;
     flex: 0 1 auto;
-    justify-content: space-between;
+    justify-content: left;
+    width: 100%;
 }
 
 .card {
     width: 280px;
     margin-bottom: 30px;
     padding: 10px;
+    position: relative;
 }
 .card .product-name {
     margin: 0;
@@ -68,22 +70,63 @@ html, body, #root {
 
 .card .description {
     padding: 0;
-    padding-right: 20px;
     margin: 0;
-    height: 38px;
+    white-space: nowrap;
     overflow: hidden;
     position: relative;
+    text-overflow: ellipsis;
 }
 
-.card .description::after {
-    content: "...";
+/*.card .description::after {*/
+/*    content: "...";*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    right: 20px;*/
+/*    background-color: white;*/
+/*}*/
+
+.card .favorite {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    width: 20px;
+    height: 20px;
+    right: 20px;
+    top: 70px;
+    font-size: 0;
+    transform: rotate(45deg);
+    border: 2px solid red;
+    border-left-color: transparent;
+    border-top-color: transparent;
+}
+
+.card .favorite::before, .card .favorite::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid red;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.card .favorite::before {
+    border: 2px solid red;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    transform: translate(-12px, -2px) rotate(-45deg);
+}
+
+.card .favorite::after {
+    transform: translate(-2px, -12px) rotate(45deg);
 }
 
 .card .favorite.is-favorite {
     background-color: red;
 }
+
+.card .favorite.is-favorite::after, .card .favorite.is-favorite::before {
+    background: linear-gradient(to right bottom, red 0, red 50%, transparent 50%, transparent 100%);
+}
+
 
 /*# sourceMappingURL=style.css.map*/
