@@ -201,10 +201,35 @@ var Card = function Card(_ref) {
   }, "\u0423\u0434\u0430\u043B\u0438\u0442\u044C")));
 };
 var ProductList = function ProductList() {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useDispatch)();
   var products = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useSelector)(function (state) {
     return state.products.originProducts;
   });
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useDispatch)();
+  var filter = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useSelector)(function (state) {
+    return state.products.filter;
+  });
+  var filters = [{
+    "id": "full",
+    "value": "none",
+    "title": "Полный список"
+  }, {
+    "id": "favorite",
+    "value": "favorite",
+    "title": "Только избранные"
+  }];
+  var filteredList = function filteredList(products, filter) {
+    switch (filter) {
+      case "favorite":
+        {
+          return products.filter(function (item) {
+            return item.isFavorite;
+          });
+          break;
+        }
+      default:
+        return products;
+    }
+  };
   var onDeleteProduct = function onDeleteProduct(id) {
     dispatch((0,_store_slices_productListSlice__WEBPACK_IMPORTED_MODULE_1__.deleteProduct)({
       id: id
@@ -223,27 +248,11 @@ var ProductList = function ProductList() {
     className: "product-container__wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "product-container__product-filter product-filter"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-    type: "radio",
-    name: "filter",
-    id: "full",
-    value: "full"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-    htmlFor: "full"
-  }, "\u041F\u043E\u043B\u043D\u044B\u0439 \u0441\u043F\u0438\u0441\u043E\u043A")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-    type: "radio",
-    name: "filter",
-    id: "favorite",
-    value: "favorite"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-    htmlFor: "favorite"
-  }, "\u0422\u043E\u043B\u044C\u043A\u043E \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u044B\u0435"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(FilterList, {
+    filters: filters
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
     className: "product-container__product-list product-list"
-  }, products.map(function (item) {
+  }, filteredList(products, filter).map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Card, _extends({}, item, {
       key: item.id,
       onDelete: onDeleteProduct,
@@ -251,9 +260,37 @@ var ProductList = function ProductList() {
     }));
   }))));
 };
-var ErrorPage = function ErrorPage(_ref2) {
-  var _ref2$errorMessage = _ref2.errorMessage,
-    errorMessage = _ref2$errorMessage === void 0 ? "" : _ref2$errorMessage;
+var FilterList = function FilterList(_ref2) {
+  var _ref2$filters = _ref2.filters,
+    filters = _ref2$filters === void 0 ? [] : _ref2$filters;
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useDispatch)();
+  var onSetFilter = function onSetFilter(evt) {
+    dispatch((0,_store_slices_productListSlice__WEBPACK_IMPORTED_MODULE_1__.setFilter)({
+      filter: evt.target.value
+    }));
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+    className: "product-filter__filters filters"
+  }, filters.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+      className: "filter-item",
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      type: "radio",
+      name: "filter",
+      id: item.id,
+      value: item.value,
+      onClick: function onClick(evt) {
+        return onSetFilter(evt);
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+      htmlFor: item.id
+    }, item.title));
+  }));
+};
+var ErrorPage = function ErrorPage(_ref3) {
+  var _ref3$errorMessage = _ref3.errorMessage,
+    errorMessage = _ref3$errorMessage === void 0 ? "" : _ref3$errorMessage;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "\u0417\u0430\u043F\u0440\u043E\u0441 \u0441\u043F\u0438\u0441\u043A\u0430 \u0442\u043E\u0432\u0430\u0440\u043E\u0432 \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u0441\u044F \u043E\u0448\u0438\u0431\u043A\u043E\u0439: ", errorMessage);
 };
 
@@ -270,8 +307,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   deleteProduct: () => (/* binding */ deleteProduct),
 /* harmony export */   fetchProductData: () => (/* binding */ fetchProductData),
-/* harmony export */   getFullList: () => (/* binding */ getFullList),
-/* harmony export */   setFavorite: () => (/* binding */ setFavorite)
+/* harmony export */   setFavorite: () => (/* binding */ setFavorite),
+/* harmony export */   setFilter: () => (/* binding */ setFilter)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
@@ -304,11 +341,11 @@ var fetchProductData = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAs
 })));
 var productListSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: "products",
-  initialState: {},
+  initialState: {
+    originProducts: [],
+    filter: "none"
+  },
   reducers: {
-    getFullList: function getFullList(state) {
-      return state;
-    },
     deleteProduct: function deleteProduct(state, action) {
       state.originProducts = state.originProducts.filter(function (item) {
         return item.id !== action.payload.id;
@@ -320,6 +357,9 @@ var productListSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSl
           isFavorite: !item.isFavorite
         }) : item;
       });
+    },
+    setFilter: function setFilter(state, action) {
+      state.filter = action.payload.filter;
     }
   },
   extraReducers: function extraReducers(builder) {
@@ -340,16 +380,16 @@ var productListSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSl
       state.loadingStatus = "idle";
       state.error = null;
     }).addCase(fetchProductData.rejected, function (state, action) {
-      state.products = [];
+      state.originProducts = [];
       state.loadingStatus = "failed";
       state.error = action.error.message;
     });
   }
 });
 var _productListSlice$act = productListSlice.actions,
-  getFullList = _productListSlice$act.getFullList,
   deleteProduct = _productListSlice$act.deleteProduct,
-  setFavorite = _productListSlice$act.setFavorite;
+  setFavorite = _productListSlice$act.setFavorite,
+  setFilter = _productListSlice$act.setFilter;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productListSlice.reducer);
 
