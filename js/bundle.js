@@ -249,7 +249,8 @@ var ProductList = function ProductList() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "product-container__product-filter product-filter"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(FilterList, {
-    filters: filters
+    filters: filters,
+    filter: filter
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
     className: "product-container__product-list product-list"
   }, filteredList(products, filter).map(function (item) {
@@ -262,7 +263,9 @@ var ProductList = function ProductList() {
 };
 var FilterList = function FilterList(_ref2) {
   var _ref2$filters = _ref2.filters,
-    filters = _ref2$filters === void 0 ? [] : _ref2$filters;
+    filters = _ref2$filters === void 0 ? [] : _ref2$filters,
+    _ref2$filter = _ref2.filter,
+    filter = _ref2$filter === void 0 ? "none" : _ref2$filter;
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useDispatch)();
   var onSetFilter = function onSetFilter(evt) {
     dispatch((0,_store_slices_productListSlice__WEBPACK_IMPORTED_MODULE_1__.setFilter)({
@@ -280,6 +283,7 @@ var FilterList = function FilterList(_ref2) {
       name: "filter",
       id: item.id,
       value: item.value,
+      checked: item.value === filter,
       onClick: function onClick(evt) {
         return onSetFilter(evt);
       }
