@@ -363,6 +363,7 @@ var CardDetail = function CardDetail() {
 };
 var NewProduct = function NewProduct() {
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useDispatch)();
+  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
   var onSend = function onSend(evt) {
     evt.preventDefault();
     var title = document.getElementById("new-product__title");
@@ -397,6 +398,7 @@ var NewProduct = function NewProduct() {
       price: price.value,
       stock: stock.value
     }));
+    navigate("/products");
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "main-page__new-product"
